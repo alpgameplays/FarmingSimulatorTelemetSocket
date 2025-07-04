@@ -7,7 +7,7 @@
 ![GitHub contributors](https://img.shields.io/github/contributors/marciel032/farmingsimulatortelemetry?style=for-the-badge)
 
 
-> This mod allows reading data from farming simulator vehicles
+> This mod allows reading data from farming simulator vehicles including detailed transmission information
 
 ### Adjustments and improvements
 
@@ -23,6 +23,7 @@ The project is still under development and future updates will focus on the foll
 - [ ] Read wiper state when is snowing
 - [x] Read horn state
 - [x] Read attached implements state
+- [x] Read detailed transmission data (gear groups, automatic/manual, gear changing status)
 
 ## 💻 Prerequisites
 
@@ -47,7 +48,17 @@ The event OnTelemetryRead is called on new information is writed
 ```csharp
 private void TelemetryReader_OnTelemetryRead(FSTelemetry telemetry)
 {
-    ...
+    // Access transmission data
+    string currentGroup = telemetry.CurrentGearGroup; // "L", "M", "H", "R"
+    bool isAutomatic = telemetry.IsAutomatic;
+    bool isChanging = telemetry.IsGearChanging;
+    string prevGear = telemetry.PrevGearName;
+    string nextGear = telemetry.NextGearName;
+    
+    // Access other vehicle data
+    int currentGear = telemetry.Gear;
+    decimal speed = telemetry.Speed;
+    int rpm = telemetry.RPM;
 }
 ```
 
@@ -66,7 +77,21 @@ private void TelemetryReader_OnTelemetryRead(FSTelemetry telemetry)
 * RPM 
 * IsEngineStarted 
 * Gear 
-* IsLightOn 
+* CurrentGearGroup
+* CurrentGearGroupIndex
+* GearGroupNames
+* GearGroupRatios
+* GearGroupCount
+* GearMaxSpeeds
+* GearCount
+* GearsAvailable
+* IsAutomatic
+* PrevGearName
+* NextGearName
+* PrevPrevGearName
+* NextNextGearName
+* IsGearChanging
+* IsLightOn
 * IsHighLightOn 
 * IsLightTurnRightEnabled
 * IsLightTurnRightOn 

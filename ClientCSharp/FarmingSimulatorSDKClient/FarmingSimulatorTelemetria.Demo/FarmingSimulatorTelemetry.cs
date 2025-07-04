@@ -57,6 +57,8 @@ namespace FarmingSimulatorTelemetria.Demo
         private void TelemetryReader_OnTelemetryRead(FSTelemetry telemetry)
         {
             var texto = JsonConvert.SerializeObject(telemetry, Formatting.Indented);
+            //Console.WriteLine(texto);
+
             richTextBox1.BeginInvoke((MethodInvoker)delegate ()
             {
                 richTextBox1.Text = texto;

@@ -69,7 +69,21 @@ function FSTelemetry:ClearVehicleTelemetry()
 	FSContext.Telemetry.OperationTimeMinutes = 0;
 	FSContext.Telemetry.Speed = 0.0;
 	FSContext.Telemetry.IsEngineStarted = false;
-	FSContext.Telemetry.Gear = 0;
+			FSContext.Telemetry.Gear = 0;
+		FSContext.Telemetry.GearGroupName = "N/A";
+		FSContext.Telemetry.CurrentGearGroup = "N/A";
+		FSContext.Telemetry.CurrentGearGroupIndex = 0;
+		FSContext.Telemetry.GearGroupNames = "N/A";
+		FSContext.Telemetry.GearGroupRatios = "N/A";
+		FSContext.Telemetry.GearGroupCount = 0;
+		FSContext.Telemetry.GearMaxSpeeds = "N/A";
+		FSContext.Telemetry.GearsAvailable = false;
+		FSContext.Telemetry.IsAutomatic = false;
+		FSContext.Telemetry.PrevGearName = "N/A";
+		FSContext.Telemetry.NextGearName = "N/A";
+		FSContext.Telemetry.PrevPrevGearName = "N/A";
+		FSContext.Telemetry.NextNextGearName = "N/A";
+		FSContext.Telemetry.IsGearChanging = false;
 	FSContext.Telemetry.IsLightOn = false;
 	FSContext.Telemetry.IsLightHighOn = false;
 	FSContext.Telemetry.IsLightTurnRightEnabled = false;
@@ -129,7 +143,7 @@ function FSTelemetry:ProcessVehicleData()
 	FSTelemetry:ProcessMotorFanEnabled(specMotorized);
 	FSTelemetry:ProcessMotorTemperature(specMotorized);
 	FSTelemetry:ProcessSpeed(vehicle, specMotorized);
-	FSTelemetry:ProcessGear(motor);
+	FSTelemetry:ProcessGear(motor, specMotorized);
 	FSTelemetry:ProcessRPM(motor);
 	FSTelemetry:ProcessReverseDriving(vehicle, specMotorized);
 	FSTelemetry:ProcessEngineStarted(specMotorized);
@@ -255,9 +269,39 @@ function FSTelemetry:ProcessPrice(vehicle)
 	end;
 end
 
-function FSTelemetry:ProcessGear(motor)
+function FSTelemetry:ProcessGear(motor, specMotorized)
 	if motor ~= nil then
 		FSContext.Telemetry.Gear = motor.gear;
+		
+		-- Usar apenas os métodos oficiais do motor
+		if specMotorized ~= nil and specMotorized.motor ~= nil then
+			local motorMotorized = specMotorized.motor;
+			
+			-- Obter informações da marcha atual
+			local gear, gearsAvailable, isAutomatic, prevGearName, nextGearName, prevPrevGearName, nextNextGearName, isGearChanging = motorMotorized:getGearToDisplay()
+			
+			-- Obter informações do grupo atual
+			local gearGroup, groupsAvailable = motorMotorized:getGearGroupToDisplay()
+			
+			-- Definir os valores finais usando apenas os métodos oficiais
+			FSContext.Telemetry.GearGroupName = specMotorized.gearGroupName or "N/A";
+			FSContext.Telemetry.CurrentGearGroup = (groupsAvailable and gearGroup ~= nil) and gearGroup or "N/A";
+			FSContext.Telemetry.CurrentGearGroupIndex = 0; -- Simplificado
+			FSContext.Telemetry.GearGroupNames = "N/A"; -- Simplificado
+			FSContext.Telemetry.GearGroupRatios = "N/A"; -- Simplificado
+			FSContext.Telemetry.GearGroupCount = 0; -- Simplificado
+			FSContext.Telemetry.GearMaxSpeeds = "N/A"; -- Simplificado
+			FSContext.Telemetry.GearCount = 0; -- Simplificado
+			
+			-- Informações detalhadas da marcha (métodos oficiais)
+			FSContext.Telemetry.GearsAvailable = gearsAvailable or false;
+			FSContext.Telemetry.IsAutomatic = isAutomatic or false;
+			FSContext.Telemetry.PrevGearName = prevGearName or "N/A";
+			FSContext.Telemetry.NextGearName = nextGearName or "N/A";
+			FSContext.Telemetry.PrevPrevGearName = prevPrevGearName or "N/A";
+			FSContext.Telemetry.NextNextGearName = nextNextGearName or "N/A";
+			FSContext.Telemetry.IsGearChanging = isGearChanging or false;
+		end
 	end;
 end
 

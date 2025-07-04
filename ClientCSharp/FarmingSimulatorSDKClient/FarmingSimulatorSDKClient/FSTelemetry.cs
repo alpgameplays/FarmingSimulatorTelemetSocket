@@ -32,7 +32,22 @@ namespace FarmingSimulatorSDKClient
         public int RPMMax { get; set; }
         public int RPM { get; set; }
         public bool IsEngineStarted { get; set; }
-        public int Gear { get; set; }
+        		public int Gear { get; set; }
+		public string GearGroupName { get; set; }
+		public string CurrentGearGroup { get; set; }
+		public int CurrentGearGroupIndex { get; set; }
+		public string GearGroupNames { get; set; }
+		public string GearGroupRatios { get; set; }
+		public int GearGroupCount { get; set; }
+		public string GearMaxSpeeds { get; set; }
+		public int GearCount { get; set; }
+		public bool GearsAvailable { get; set; }
+		public bool IsAutomatic { get; set; }
+		public string PrevGearName { get; set; }
+		public string NextGearName { get; set; }
+		public string PrevPrevGearName { get; set; }
+		public string NextNextGearName { get; set; }
+		public bool IsGearChanging { get; set; }
         public bool IsLightOn { get; set; }
         public bool IsLightHighOn { get; set; }
         public bool IsLightTurnRightEnabled { get; set; }
