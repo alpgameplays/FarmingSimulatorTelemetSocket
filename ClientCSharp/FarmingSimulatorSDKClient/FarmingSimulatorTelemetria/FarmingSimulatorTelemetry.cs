@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Fleck;
 
-namespace FarmingSimulatorTelemetria.Demo
+namespace FarmingSimulatorTelemetria.ALP
 {
     public partial class FarmingSimulatorTelemetry : Form
     {
@@ -23,6 +23,11 @@ namespace FarmingSimulatorTelemetria.Demo
         public FarmingSimulatorTelemetry()
         {
             InitializeComponent();
+
+            telemetryReader = new FSTelemetryReader();
+            telemetryReader.OnTelemetryRead += TelemetryReader_OnTelemetryRead;
+            telemetryReader.Start();
+            StartWebSocketServer();
         }
 
         private void StartWebSocketServer()
@@ -59,10 +64,10 @@ namespace FarmingSimulatorTelemetria.Demo
             var texto = JsonConvert.SerializeObject(telemetry, Formatting.Indented);
             //Console.WriteLine(texto);
 
-            richTextBox1.BeginInvoke((MethodInvoker)delegate ()
-            {
-                richTextBox1.Text = texto;
-            });
+            //richTextBox1.BeginInvoke((MethodInvoker)delegate ()
+            //{
+            //    richTextBox1.Text = texto;
+            //});
             // Envia para todos os clientes WebSocket conectados
             foreach (var client in wsClients.ToList())
             {

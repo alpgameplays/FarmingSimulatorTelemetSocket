@@ -1,5 +1,7 @@
 ﻿
-namespace FarmingSimulatorTelemetria.Demo
+using System.Windows.Forms;
+
+namespace FarmingSimulatorTelemetria.ALP
 {
     partial class FarmingSimulatorTelemetry
     {
@@ -29,6 +31,8 @@ namespace FarmingSimulatorTelemetria.Demo
         /// </summary>
         private void InitializeComponent()
         {
+            this.WindowState = FormWindowState.Minimized;
+            this.ShowInTaskbar = false;
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.buttonStart = new System.Windows.Forms.Button();
             this.buttonStop = new System.Windows.Forms.Button();
@@ -91,6 +95,11 @@ namespace FarmingSimulatorTelemetria.Demo
             this.ResumeLayout(false);
             this.PerformLayout();
 
+        }
+
+        protected override void SetVisibleCore(bool value)
+        {
+            base.SetVisibleCore(false); // oculta a janela principal
         }
 
         #endregion

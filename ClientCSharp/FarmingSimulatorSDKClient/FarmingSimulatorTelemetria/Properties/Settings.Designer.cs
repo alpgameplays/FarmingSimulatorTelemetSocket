@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace FarmingSimulatorTelemetria.Demo.Properties {
+namespace FarmingSimulatorTelemetria.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
